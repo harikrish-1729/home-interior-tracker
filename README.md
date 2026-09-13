@@ -32,3 +32,7 @@ Upload `index.html`, `app.js`, and `styles.css` to the repository root.
 - Unlimited purchase comparison options are now supported by the database and frontend.
 - Option saves use upsert on item + option number to avoid duplicate-key errors.
 - Notes page simplified to a multiline note box, status, and a compact note list.
+
+
+## v8
+- Smart visual comparison colors: best rated, lowest price, over budget, near budget, and your choice.

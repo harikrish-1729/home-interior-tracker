@@ -27,3 +27,21 @@
 
 /* Simpler Notes v7 */
 .note-compose-simple{max-width:900px;margin-bottom:14px}.note-compose-simple textarea{min-height:150px;resize:vertical}.simple-note-form-actions{display:flex;gap:8px;justify-content:flex-end;align-items:center}.simple-note-form-actions select{width:auto;min-width:140px}.simple-notes-list{max-width:900px;display:flex;flex-direction:column;gap:8px}.simple-note-row{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border)}.simple-note-main{min-width:0;flex:1}.simple-note-meta{display:flex;align-items:center;gap:10px;margin-bottom:8px}.simple-note-meta small{color:var(--muted)}.simple-note-text{line-height:1.55;white-space:normal;word-break:break-word}.simple-note-actions{display:flex;gap:4px;flex-shrink:0}.simple-empty{padding:22px 0;color:var(--muted)}@media(max-width:640px){.simple-note-row{display:block}.simple-note-actions{justify-content:flex-end;margin-top:8px}.simple-note-form-actions{flex-wrap:wrap}.simple-note-form-actions select{flex:1}}
+
+/* Smart comparison signals */
+.compare-option{position:relative;transition:background .18s ease,box-shadow .18s ease}
+.compare-option.best-rated-option{background:#f5fbf7;box-shadow:inset 0 4px 0 #2e8b57}
+.compare-option.lowest-price-option{background:#f4fbfa;box-shadow:inset 0 4px 0 #188a7a}
+.compare-option.near-budget-option{background:#fffaf0;box-shadow:inset 0 4px 0 #c58b20}
+.compare-option.over-budget-option{background:#fff7f7;box-shadow:inset 0 4px 0 #cf4b4b}
+.compare-option.selected-option{background:#f4f8ff;box-shadow:inset 0 4px 0 #356fd6}
+.compare-tag.best{background:#e5f5e9;color:#237442}
+.compare-tag.lowest{background:#e1f4f1;color:#176d62}
+.compare-tag.over-budget{background:#fde7e7;color:#aa3030}
+.compare-tag.near-budget{background:#fff0cf;color:#8a6112}
+.compare-tag.chosen{background:#e4edff;color:#285fbd}
+.compare-price.price-over{color:#c73535}
+.compare-price.price-lowest{color:#147566}
+.compare-price.price-near{color:#9b6c14}
+.overall-best{color:#237442}
+@media print{.compare-option.best-rated-option,.compare-option.lowest-price-option,.compare-option.near-budget-option,.compare-option.over-budget-option,.compare-option.selected-option{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
