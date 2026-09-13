@@ -32,7 +32,14 @@ async function loadProjectContext(){
   if(members?.length){ state.membership=members[0]; if(members[0].status==='approved'){ const {data:p}=await supabase.from('projects').select('*').eq('id',members[0].project_id).single(); state.project=p; await loadProjectData() } else { showSetup('waiting') } return }
   state.project=null; state.membership=null; showSetup('new')
 }
-function showSetup(kind){ show($('#mainPages'),false); show($('#setupView'),kind==='new'); show($('#waitingView'),kind==='waiting'); }
+function showSetup(kind){
+  show($('#mainPages'),false);
+  const setup=$('#setupView'), waiting=$('#waitingView');
+  setup?.classList.toggle('active', kind==='new');
+  waiting?.classList.toggle('active', kind==='waiting');
+  show(setup, kind==='new');
+  show(waiting, kind==='waiting');
+}
 
 async function createProject(){
   const name=$('#newProjectName').value.trim()||'My Home Interior'
