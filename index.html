@@ -105,16 +105,15 @@
         </section>
 
         <section id="notesPage" class="page">
-          <div class="page-head"><div><p class="eyebrow">QUICK NOTES</p><h1>Notes</h1><p class="muted">Keep simple project notes and track whether each one is still open or completed.</p></div></div>
-          <section class="panel note-compose">
-            <form id="noteForm" class="stack">
+          <div class="page-head"><div><h1>Notes</h1></div></div>
+          <section class="panel note-compose-simple">
+            <form id="noteForm">
               <input id="noteId" type="hidden" />
-              <div class="field"><label for="noteText">Note</label><textarea id="noteText" rows="5" required placeholder="Type your note here..."></textarea></div>
-              <div class="note-form-row"><div class="field"><label for="noteStatus">Status</label><select id="noteStatus"><option>Open</option><option>In Progress</option><option>Done</option></select></div><div class="note-form-actions"><button id="cancelNoteEditBtn" type="button" class="btn btn-ghost hidden">Cancel edit</button><button class="btn btn-primary" type="submit"><span id="noteSubmitText">+ Add Note</span></button></div></div>
+              <div class="field"><textarea id="noteText" rows="6" required placeholder="Write a note..."></textarea></div>
+              <div class="simple-note-form-actions"><select id="noteStatus" aria-label="Note status"><option>Open</option><option>In Progress</option><option>Done</option></select><button id="cancelNoteEditBtn" type="button" class="btn btn-ghost hidden">Cancel</button><button class="btn btn-primary" type="submit"><span id="noteSubmitText">Add Note</span></button></div>
             </form>
           </section>
-          <div class="notes-toolbar"><div class="field compact"><label>Status</label><select id="noteFilter"><option value="all">All notes</option><option>Open</option><option>In Progress</option><option>Done</option></select></div><div class="notes-count"><strong id="notesOpenCount">0</strong> open · <strong id="notesDoneCount">0</strong> done</div></div>
-          <div id="notesList" class="notes-list"></div>
+          <div id="notesList" class="simple-notes-list"></div>
         </section>
 
         <section id="teamPage" class="page">

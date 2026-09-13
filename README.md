@@ -26,3 +26,9 @@ Upload `index.html`, `app.js`, and `styles.css` to the repository root.
 - Purchase Compare starts with 3 options but supports adding more options dynamically.
 - Rating controls are modern 1–5 sliders.
 - New Notes page with multiline notes and Open / In Progress / Done status.
+
+
+## v7 fixes
+- Unlimited purchase comparison options are now supported by the database and frontend.
+- Option saves use upsert on item + option number to avoid duplicate-key errors.
+- Notes page simplified to a multiline note box, status, and a compact note list.
