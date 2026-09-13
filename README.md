@@ -20,3 +20,9 @@ Upload `index.html`, `app.js`, and `styles.css` to the repository root.
 - Admins can reset another admin's password to a temporary password; the target admin must change it immediately after login.
 - The login screen includes Forgot password, which uses Supabase's email recovery flow.
 - There is deliberately no permanent master/bypass password. Keeping at least two admins plus working recovery email access prevents lockout without creating a backdoor.
+
+
+## v6 additions
+- Purchase Compare starts with 3 options but supports adding more options dynamically.
+- Rating controls are modern 1–5 sliders.
+- New Notes page with multiline notes and Open / In Progress / Done status.
