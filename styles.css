@@ -21,12 +21,36 @@
 /* v6 dynamic comparison options + modern rating sliders */
 .option-add-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:2px 0 8px}.option-head-actions{display:flex;align-items:center;gap:10px}.remove-option-btn{width:30px;height:30px;font-size:18px;color:#a33}.rating-field{padding:8px 0}.rating-label{display:flex;justify-content:space-between;align-items:center;gap:10px}.rating-label output{min-width:28px;height:28px;border-radius:9px;background:#17191d;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800}.rating-slider{appearance:none;-webkit-appearance:none;width:100%;height:6px;border-radius:999px;background:linear-gradient(90deg,#e6e8ec,#bfc4cc);outline:none;padding:0;border:0;margin:10px 0 2px}.rating-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#17191d;border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.25);cursor:pointer}.rating-slider::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#17191d;border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.25);cursor:pointer}.rating-scale{display:flex;justify-content:space-between;font-size:9px;color:var(--muted)}
 
-/* Notes */
-.note-compose{margin-bottom:16px}.note-compose textarea{min-height:130px;resize:vertical}.note-form-row{display:flex;align-items:end;justify-content:space-between;gap:16px}.note-form-row .field{min-width:200px}.note-form-actions{display:flex;gap:8px;align-items:center;padding-bottom:1px}.notes-toolbar{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:12px 0}.notes-count{font-size:12px;color:var(--muted);padding-bottom:10px}.notes-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:14px;min-height:180px}.note-card-top{display:flex;justify-content:space-between;align-items:center;gap:10px}.note-card-top small{color:var(--muted)}.note-card p{white-space:normal;line-height:1.6;margin:0;flex:1;font-size:13px}.note-card-actions{display:flex;gap:8px;justify-content:flex-end}.note-done{opacity:.78}.note-done p{text-decoration-color:#bbb}
-@media(max-width:640px){.note-form-row,.notes-toolbar{display:grid}.note-form-row .field{min-width:0}.note-form-actions{justify-content:flex-end}.notes-list{grid-template-columns:1fr}}
-
-/* Simpler Notes v7 */
-.note-compose-simple{max-width:900px;margin-bottom:14px}.note-compose-simple textarea{min-height:150px;resize:vertical}.simple-note-form-actions{display:flex;gap:8px;justify-content:flex-end;align-items:center}.simple-note-form-actions select{width:auto;min-width:140px}.simple-notes-list{max-width:900px;display:flex;flex-direction:column;gap:8px}.simple-note-row{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border)}.simple-note-main{min-width:0;flex:1}.simple-note-meta{display:flex;align-items:center;gap:10px;margin-bottom:8px}.simple-note-meta small{color:var(--muted)}.simple-note-text{line-height:1.55;white-space:normal;word-break:break-word}.simple-note-actions{display:flex;gap:4px;flex-shrink:0}.simple-empty{padding:22px 0;color:var(--muted)}@media(max-width:640px){.simple-note-row{display:block}.simple-note-actions{justify-content:flex-end;margin-top:8px}.simple-note-form-actions{flex-wrap:wrap}.simple-note-form-actions select{flex:1}}
+/* Notes — intentionally simple */
+#notesPage{max-width:960px}
+#notesPage .page-head{margin-bottom:16px}
+.note-compose-simple{width:100%;margin-bottom:12px;padding:16px}
+.note-compose-simple form{display:grid;gap:12px}
+.note-compose-simple textarea{min-height:150px;resize:vertical;line-height:1.55}
+.simple-note-form-actions{display:flex;gap:8px;justify-content:flex-end;align-items:end;flex-wrap:wrap}
+.note-status-field{display:grid;gap:6px;min-width:150px;margin-right:auto}
+.note-status-field label{font-size:11px;font-weight:700;color:#565b64}
+.note-status-field select{height:42px;border:1px solid var(--line);border-radius:11px;padding:0 36px 0 11px;background:#fff;color:var(--text);outline:none}
+.note-status-field select:focus{border-color:#999fa8;box-shadow:0 0 0 3px #eef0f3}
+.simple-notes-list{width:100%;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:0 16px;box-shadow:0 6px 24px rgba(20,24,30,.035)}
+.simple-note-row{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:15px 0;border-bottom:1px solid var(--line)}
+.simple-note-row:last-child{border-bottom:0}
+.simple-note-main{min-width:0;flex:1}
+.simple-note-meta{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.simple-note-meta small{color:var(--muted)}
+.simple-note-text{line-height:1.55;white-space:normal;overflow-wrap:anywhere}
+.simple-note-actions{display:flex;gap:4px;flex-shrink:0}
+.simple-empty{padding:22px 0;color:var(--muted)}
+.note-done .simple-note-text{color:var(--muted)}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+@media(max-width:640px){
+  #notesPage{max-width:none}
+  .note-compose-simple{padding:14px}
+  .simple-note-form-actions{display:grid;grid-template-columns:1fr auto;align-items:end}
+  .note-status-field{min-width:0;margin:0}
+  .simple-note-row{display:block}
+  .simple-note-actions{justify-content:flex-end;margin-top:8px}
+}
 
 /* Smart comparison signals */
 .compare-option{position:relative;transition:background .18s ease,box-shadow .18s ease}

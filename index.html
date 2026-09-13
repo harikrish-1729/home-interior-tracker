@@ -1,213 +1,196 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#111827" />
-  <title>Home Interior Tracker</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-</head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#111827" name="theme-color"/>
+<title>Home Interior Tracker</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="styles.css" rel="stylesheet">
+</link></head>
 <body>
-  <div id="toast" class="toast hidden"></div>
-
-  <main id="authView" class="auth-shell">
-    <section class="auth-card">
-      <div class="brand-mark">HI</div>
-      <p class="eyebrow">HOME INTERIOR</p>
-      <h1>Track every room. Know what’s next.</h1>
-      <p class="muted">A shared tracker for your interior work, pending decisions and completion dates.</p>
-      <div class="segmented auth-tabs">
-        <button class="seg active" data-auth-tab="signin">Sign in</button>
-        <button class="seg" data-auth-tab="signup">Create account</button>
-      </div>
-      <form id="authForm" class="stack">
-        <div id="nameField" class="field hidden"><label for="displayName">Name</label><input id="displayName" type="text" placeholder="Your name" autocomplete="name" /></div>
-        <div class="field"><label for="email">Email</label><input id="email" type="email" required placeholder="you@example.com" autocomplete="email" /></div>
-        <div class="field"><label for="password">Password</label><input id="password" type="password" required minlength="6" placeholder="Minimum 6 characters" autocomplete="current-password" /></div>
-        <button id="authSubmit" class="btn btn-primary btn-block" type="submit">Sign in</button>
-        <button id="forgotPasswordBtn" class="text-btn auth-link" type="button">Forgot password?</button>
-      </form>
-      <p class="tiny muted centered">Your login is separate from your Supabase dashboard login.</p>
-    </section>
-  </main>
-
-  <div id="appView" class="app hidden">
-    <aside class="sidebar">
-      <div>
-        <div class="app-brand"><span class="brand-mark small">HI</span><div><strong>Interior Tracker</strong><small id="projectNameSide">Home Project</small></div></div>
-        <nav class="nav">
-          <button class="nav-item active" data-page="dashboard"><span>⌂</span>Dashboard</button>
-          <button class="nav-item" data-page="activities"><span>☷</span>Activities</button>
-          <button class="nav-item" data-page="pending"><span>◷</span>Pending With Me <b id="pendingBadge" class="badge">0</b></button>
-          <button class="nav-item" data-page="purchase"><span>◇</span>Purchase Compare</button>
-          <button class="nav-item" data-page="notes"><span>✎</span>Notes</button>
-          <button class="nav-item" data-page="team"><span>◎</span>Team & Access</button>
-          <button id="settingsNav" class="nav-item hidden" data-page="settings"><span>⚙</span>Project Settings</button>
-        </nav>
-      </div>
-      <div class="sidebar-bottom"><div id="userLabel" class="user-pill"></div><button id="logoutBtn" class="btn btn-ghost btn-block">Sign out</button></div>
-    </aside>
-
-    <section class="content">
-      <header class="mobile-header"><div class="app-brand"><span class="brand-mark small">HI</span><strong>Interior Tracker</strong></div><button id="mobileMenuBtn" class="icon-btn">☰</button></header>
-
-      <div id="setupView" class="page hidden">
-        <div class="setup-grid">
-          <section class="panel setup-card"><p class="eyebrow">START YOUR PROJECT</p><h2>Create your home tracker</h2><p class="muted">Creates the project with Kitchen, Bedroom 1, Bedroom 2, Bathroom 1, Bathroom 2, Hall and Balcony.</p><div class="field"><label>Project name</label><input id="newProjectName" value="My Home Interior" /></div><button id="createProjectBtn" class="btn btn-primary">Create Project</button></section>
-          <section class="panel setup-card"><p class="eyebrow">JOIN AN EXISTING PROJECT</p><h2>Have an invite code?</h2><p class="muted">Enter the 8-character code shared by the project owner.</p><div class="field"><label>Invite code</label><input id="joinCode" maxlength="8" placeholder="AB12CD34" /></div><button id="joinProjectBtn" class="btn btn-secondary">Request Access</button><p id="joinStatus" class="tiny muted"></p></section>
-        </div>
-      </div>
-
-      <div id="waitingView" class="page hidden"><section class="panel empty-state"><div class="empty-icon">◷</div><h2>Access request pending</h2><p class="muted">The project owner needs to approve your request.</p><button id="refreshAccessBtn" class="btn btn-primary">Check Again</button></section></div>
-
-      <div id="mainPages" class="hidden">
-        <section id="dashboardPage" class="page active">
-          <div class="page-head"><div><p class="eyebrow">PROJECT OVERVIEW</p><h1 id="dashboardTitle">Home Interior</h1><p id="todayText" class="muted"></p></div><div class="head-actions"><button id="printDashboardBtn" class="btn btn-secondary">Print</button><button class="btn btn-primary" data-action="add-activity">+ Add Activity</button></div></div>
-          <div class="stats-grid">
-            <article class="stat-card"><span class="stat-label">Overall progress</span><strong id="overallProgress">0%</strong><div class="progress"><i id="overallBar"></i></div></article>
-            <article class="stat-card clickable" data-dashboard-filter="all"><span class="stat-label">Total activities</span><strong id="totalActivities">0</strong><small id="completedSummary">0 completed</small></article>
-            <article class="stat-card clickable" data-dashboard-filter="overdue"><span class="stat-label">Overdue</span><strong id="overdueCount">0</strong><small>Click to view overdue</small></article>
-            <article class="stat-card attention clickable" data-dashboard-filter="pending"><span class="stat-label">Pending with me</span><strong id="pendingCount">0</strong><small>Click to view your actions</small></article>
-          </div>
-          <div class="dashboard-grid">
-            <section class="panel"><div class="panel-head"><div><h3>Progress by area</h3><p class="muted tiny">Click an area to open its activities</p></div></div><div id="areaProgress" class="area-progress"></div></section>
-            <section class="panel"><div class="panel-head"><div><h3>Upcoming deadlines</h3><p class="muted tiny">Next activities by expected completion</p></div></div><div id="upcomingList" class="list"></div></section>
-          </div>
-          <section class="panel"><div class="panel-head"><div><h3>Recent updates</h3><p class="muted tiny">Latest activity changes</p></div><button class="text-btn" data-page-link="activities">View all</button></div><div id="recentTable"></div></section>
-        </section>
-
-        <section id="activitiesPage" class="page">
-          <div class="page-head"><div><p class="eyebrow">WORK TRACKER</p><h1>Activities</h1><p class="muted">Track each activity, deadline, comments and anything waiting on you.</p></div><div class="head-actions"><button id="exportExcelBtn" class="btn btn-secondary">Export Excel</button><button id="printActivitiesBtn" class="btn btn-secondary">Print</button><button class="btn btn-primary" data-action="add-activity">+ Add Activity</button></div></div>
-          <section class="panel filters">
-            <div class="field compact"><label>Area</label><select id="areaFilter"><option value="all">All areas</option></select></div>
-            <div class="field compact"><label>Status</label><select id="statusFilter"><option value="all">All statuses</option><option>Not Started</option><option>In Progress</option><option>Waiting</option><option>On Hold</option><option>Completed</option></select></div>
-            <div class="field compact"><label>Quick view</label><select id="quickFilter"><option value="all">All activities</option><option value="pending">Pending with me</option><option value="overdue">Overdue</option><option value="upcoming">Upcoming</option><option value="completed">Completed</option></select></div>
-            <div class="field compact grow"><label>Search</label><input id="searchFilter" placeholder="Search activity or remarks" /></div>
-          </section>
-          <div id="activeFilterNote" class="filter-note hidden"></div>
-          <section class="panel table-panel"><div id="activitiesTable"></div></section>
-        </section>
-
-        <section id="pendingPage" class="page">
-          <div class="page-head"><div><p class="eyebrow">YOUR ACTIONS</p><h1>Pending With Me</h1><p class="muted">Everything currently waiting for your decision, purchase or approval.</p></div><div class="head-actions"><button id="exportPendingBtn" class="btn btn-secondary">Export Excel</button><button id="printPendingBtn" class="btn btn-secondary">Print</button></div></div>
-          <div id="pendingCards" class="pending-grid"></div>
-        </section>
-
-
-        <section id="purchasePage" class="page">
-          <div class="page-head"><div><p class="eyebrow">BUYING DECISIONS</p><h1>Purchase Compare</h1><p class="muted">Compare brands, prices, sellers, service, quality and durability before you buy.</p></div><div class="head-actions"><button id="exportPurchasesBtn" class="btn btn-secondary">Export Excel</button><button id="printPurchasesBtn" class="btn btn-secondary">Print</button><button class="btn btn-primary" data-action="add-purchase">+ Add Item</button></div></div>
-          <div class="stats-grid purchase-stats"><article class="stat-card"><span class="stat-label">Total items</span><strong id="purchaseTotal">0</strong><small>Buying decisions tracked</small></article><article class="stat-card"><span class="stat-label">Completed</span><strong id="purchaseCompleted">0</strong><small>Purchased items</small></article><article class="stat-card"><span class="stat-label">Remaining</span><strong id="purchaseRemaining">0</strong><small>Still to complete</small></article><article class="stat-card"><span class="stat-label">Overdue</span><strong id="purchaseOverdue">0</strong><small>Past due date</small></article><article class="stat-card"><span class="stat-label">Next due</span><strong id="purchaseNextDue">—</strong><small id="purchaseNextDueItem">No due date yet</small></article><article class="stat-card"><span class="stat-label">Chosen spend</span><strong id="purchaseSpend">₹0</strong><small>Based on marked choices</small></article></div>
-          <section class="panel filters purchase-filters"><div class="field compact"><label>Status</label><select id="purchaseStatusFilter"><option value="all">All statuses</option><option>Researching</option><option>Shortlisted</option><option>Selected</option><option>Purchased</option></select></div><div class="field compact"><label>Timing</label><select id="purchaseTimingFilter"><option value="all">All dates</option><option value="overdue">Overdue</option><option value="next7">Due in next 7 days</option><option value="nodate">No due date</option></select></div><div class="field compact grow"><label>Search</label><input id="purchaseSearch" placeholder="Search item, brand, model or shop" /></div></section>
-          <div id="purchaseCompareList" class="purchase-list"></div>
-        </section>
-
-        <section id="notesPage" class="page">
-          <div class="page-head"><div><h1>Notes</h1></div></div>
-          <section class="panel note-compose-simple">
-            <form id="noteForm">
-              <input id="noteId" type="hidden" />
-              <div class="field"><textarea id="noteText" rows="6" required placeholder="Write a note..."></textarea></div>
-              <div class="simple-note-form-actions"><select id="noteStatus" aria-label="Note status"><option>Open</option><option>In Progress</option><option>Done</option></select><button id="cancelNoteEditBtn" type="button" class="btn btn-ghost hidden">Cancel</button><button class="btn btn-primary" type="submit"><span id="noteSubmitText">Add Note</span></button></div>
-            </form>
-          </section>
-          <div id="notesList" class="simple-notes-list"></div>
-        </section>
-
-        <section id="teamPage" class="page">
-          <div class="page-head"><div><p class="eyebrow">COLLABORATION</p><h1>Team & Access</h1><p class="muted">The project owner is the administrator. Approve users and control Editor/Viewer roles here.</p></div></div>
-          <div class="dashboard-grid">
-            <section class="panel"><h3>Project invite code</h3><p class="muted">Share this with your interior designer, contractor or family member.</p><div class="invite-box"><code id="inviteCode">--------</code><button id="copyInviteBtn" class="btn btn-secondary">Copy</button></div></section>
-            <section class="panel"><h3>Access levels</h3><p class="muted tiny"><strong>Owner:</strong> full project control and settings.<br><strong>Admin:</strong> manage users/roles and update project work.<br><strong>Editor:</strong> add and update activities.<br><strong>Viewer:</strong> read-only access.</p></section>
-          </div>
-          <section id="teamAdminPanel" class="panel hidden admin-create-panel">
-            <div class="panel-head"><div><h3>Create another admin</h3><p class="muted tiny">Create an admin directly with a temporary password. They must change it on first login.</p></div></div>
-            <form id="createAdminForm" class="admin-create-form">
-              <div class="field"><label for="adminDisplayName">Name</label><input id="adminDisplayName" placeholder="Admin name" /></div>
-              <div class="field"><label for="adminEmail">Email</label><input id="adminEmail" type="email" required placeholder="admin@example.com" /></div>
-              <div class="field"><label for="adminTempPassword">Temporary password</label><input id="adminTempPassword" type="password" required minlength="10" placeholder="Minimum 10 characters" /></div>
-              <button class="btn btn-primary" type="submit">Create Admin</button>
-            </form>
-            <p class="tiny muted">Share the temporary password separately and securely. The new admin will be blocked by a password-change screen until they choose their own password.</p>
-          </section>
-          <section class="panel"><div class="panel-head"><div><h3>People</h3><p class="muted tiny">Admins can approve requests, assign roles and reset another admin to a temporary password.</p></div></div><div id="teamList" class="list"></div></section>
-        </section>
-
-        <section id="settingsPage" class="page">
-          <div class="page-head"><div><p class="eyebrow">ADMIN</p><h1>Project Settings</h1><p class="muted">Edit project information and manage the areas/rooms used in the tracker.</p></div></div>
-          <div class="dashboard-grid settings-grid">
-            <section class="panel">
-              <h3>Project details</h3>
-              <form id="projectSettingsForm" class="stack settings-form">
-                <div class="field"><label for="settingsProjectName">Project name</label><input id="settingsProjectName" required /></div>
-                <div class="field"><label for="settingsLocation">Location</label><input id="settingsLocation" placeholder="e.g. Kottayam, Kerala" /></div>
-                <div class="two-col"><div class="field"><label for="settingsStartDate">Start date</label><input id="settingsStartDate" type="date" /></div><div class="field"><label for="settingsTargetDate">Target completion</label><input id="settingsTargetDate" type="date" /></div></div>
-                <div class="field"><label for="settingsDescription">Project notes</label><textarea id="settingsDescription" rows="5" placeholder="General project notes"></textarea></div>
-                <button class="btn btn-primary" type="submit">Save Project Details</button>
-              </form>
-            </section>
-            <section class="panel">
-              <h3>Areas / Rooms</h3><p class="muted tiny">Rename existing areas, add new ones, or remove an unused area.</p>
-              <div id="areaManager" class="area-manager"></div>
-              <form id="addAreaForm" class="inline-form"><input id="newAreaName" placeholder="New area name" required /><button class="btn btn-secondary" type="submit">+ Add Area</button></form>
-            </section>
-          </div>
-        </section>
-      </div>
-    </section>
-  </div>
-
-  <div id="passwordChangeModal" class="modal hidden" aria-hidden="true">
-    <div class="modal-backdrop"></div>
-    <section class="modal-card password-card">
-      <div class="modal-head"><div><p class="eyebrow">SECURITY</p><h2 id="passwordChangeTitle">Change password</h2></div></div>
-      <p id="passwordChangeText" class="muted">Choose a new password.</p>
-      <form id="passwordChangeForm" class="stack">
-        <div class="field"><label for="newPassword">New password</label><input id="newPassword" type="password" required minlength="10" autocomplete="new-password" /></div>
-        <div class="field"><label for="confirmNewPassword">Confirm new password</label><input id="confirmNewPassword" type="password" required minlength="10" autocomplete="new-password" /></div>
-        <button class="btn btn-primary btn-block" type="submit">Change Password</button>
-      </form>
-      <p class="tiny muted centered">This screen cannot be skipped when an admin is using a temporary password.</p>
-    </section>
-  </div>
-
-
-  <div id="purchaseModal" class="modal hidden" aria-hidden="true">
-    <div class="modal-backdrop" data-close-purchase></div>
-    <section class="modal-card purchase-modal-card">
-      <div class="modal-head"><div><p class="eyebrow">PURCHASE DECISION</p><h2 id="purchaseModalTitle">Add item to compare</h2></div><button class="icon-btn" type="button" data-close-purchase>×</button></div>
-      <form id="purchaseForm" class="stack">
-        <input id="purchaseId" type="hidden" />
-        <section class="purchase-basics"><div class="field"><label>Item *</label><input id="purchaseItemName" required placeholder="e.g. Kitchen chimney" /></div><div class="field"><label>Category / room</label><input id="purchaseCategory" placeholder="e.g. Kitchen" /></div><div class="field"><label>Target budget (₹)</label><input id="purchaseBudget" type="number" min="0" step="0.01" placeholder="Optional" /></div><div class="field"><label>Decision status</label><select id="purchaseDecisionStatus"><option>Researching</option><option>Shortlisted</option><option>Selected</option><option>Purchased</option></select></div><div class="field"><label>Due / target date</label><input id="purchaseDueDate" type="date" /></div><div class="field"><label>Actual purchase date</label><input id="purchaseCompletedDate" type="date" /></div><div class="field full"><label>General remarks</label><textarea id="purchaseGeneralRemarks" rows="2" placeholder="What matters most for this purchase?"></textarea></div></section>
-        <div id="purchaseOptionEditors" class="option-editors"></div>
-        <div class="option-add-row"><button id="addPurchaseOptionBtn" type="button" class="btn btn-secondary">+ Add another option</button><span class="tiny muted">Starts with 3 options. Add more whenever you need them.</span></div>
-        <div class="purchase-modal-actions"><button id="deletePurchaseBtn" type="button" class="btn btn-danger hidden">Delete Item</button><span></span><button type="button" class="btn btn-ghost" data-close-purchase>Cancel</button><button type="submit" class="btn btn-primary">Save Comparison</button></div>
-      </form>
-    </section>
-  </div>
-
-  <div id="activityModal" class="modal hidden" aria-hidden="true">
-    <div class="modal-backdrop" data-close-modal></div>
-    <section class="modal-card">
-      <div class="modal-head"><div><p class="eyebrow">ACTIVITY</p><h2 id="modalTitle">Add activity</h2></div><button class="icon-btn" data-close-modal>×</button></div>
-      <form id="activityForm" class="form-grid">
-        <input id="activityId" type="hidden" />
-        <div class="field full"><label>Area *</label><select id="activityArea" required></select></div>
-        <div class="field full"><label>Activity *</label><input id="activityName" required placeholder="e.g. Kitchen cabinets installation" /></div>
-        <div class="field"><label>Status</label><select id="activityStatus"><option>Not Started</option><option>In Progress</option><option>Waiting</option><option>On Hold</option><option>Completed</option></select></div>
-        <div class="field"><label>Expected completion</label><input id="expectedDate" type="date" /></div>
-        <div class="field"><label>Actual completion</label><input id="actualDate" type="date" /></div>
-        <div class="field checkbox-field"><label><input id="pendingWithMe" type="checkbox" /> Pending with me</label></div>
-        <div class="field full"><label>Remarks</label><textarea id="remarks" rows="3" placeholder="Any comments or site updates"></textarea></div>
-        <div class="field full"><label>What is pending?</label><textarea id="pendingDetails" rows="2" placeholder="e.g. Select handle model / make payment / approve drawing"></textarea></div>
-        <div class="modal-actions"><button id="deleteActivityBtn" type="button" class="btn btn-danger hidden">Delete</button><span></span><button type="button" class="btn btn-ghost" data-close-modal>Cancel</button><button type="submit" class="btn btn-primary">Save Activity</button></div>
-      </form>
-    </section>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <script type="module" src="app.js"></script>
+<div class="toast hidden" id="toast"></div>
+<main class="auth-shell" id="authView">
+<section class="auth-card">
+<div class="brand-mark">HI</div>
+<p class="eyebrow">HOME INTERIOR</p>
+<h1>Track every room. Know what’s next.</h1>
+<p class="muted">A shared tracker for your interior work, pending decisions and completion dates.</p>
+<div class="segmented auth-tabs">
+<button class="seg active" data-auth-tab="signin">Sign in</button>
+<button class="seg" data-auth-tab="signup">Create account</button>
+</div>
+<form class="stack" id="authForm">
+<div class="field hidden" id="nameField"><label for="displayName">Name</label><input autocomplete="name" id="displayName" placeholder="Your name" type="text"/></div>
+<div class="field"><label for="email">Email</label><input autocomplete="email" id="email" placeholder="you@example.com" required="" type="email"/></div>
+<div class="field"><label for="password">Password</label><input autocomplete="current-password" id="password" minlength="6" placeholder="Minimum 6 characters" required="" type="password"/></div>
+<button class="btn btn-primary btn-block" id="authSubmit" type="submit">Sign in</button>
+<button class="text-btn auth-link" id="forgotPasswordBtn" type="button">Forgot password?</button>
+</form>
+<p class="tiny muted centered">Your login is separate from your Supabase dashboard login.</p>
+</section>
+</main>
+<div class="app hidden" id="appView">
+<aside class="sidebar">
+<div>
+<div class="app-brand"><span class="brand-mark small">HI</span><div><strong>Interior Tracker</strong><small id="projectNameSide">Home Project</small></div></div>
+<nav class="nav">
+<button class="nav-item active" data-page="dashboard"><span>⌂</span>Dashboard</button>
+<button class="nav-item" data-page="activities"><span>☷</span>Activities</button>
+<button class="nav-item" data-page="pending"><span>◷</span>Pending With Me <b class="badge" id="pendingBadge">0</b></button>
+<button class="nav-item" data-page="purchase"><span>◇</span>Purchase Compare</button>
+<button class="nav-item" data-page="notes"><span>✎</span>Notes</button>
+<button class="nav-item" data-page="team"><span>◎</span>Team &amp; Access</button>
+<button class="nav-item hidden" data-page="settings" id="settingsNav"><span>⚙</span>Project Settings</button>
+</nav>
+</div>
+<div class="sidebar-bottom"><div class="user-pill" id="userLabel"></div><button class="btn btn-ghost btn-block" id="logoutBtn">Sign out</button></div>
+</aside>
+<section class="content">
+<header class="mobile-header"><div class="app-brand"><span class="brand-mark small">HI</span><strong>Interior Tracker</strong></div><button class="icon-btn" id="mobileMenuBtn" type="button">☰</button></header>
+<div class="page hidden" id="setupView">
+<div class="setup-grid">
+<section class="panel setup-card"><p class="eyebrow">START YOUR PROJECT</p><h2>Create your home tracker</h2><p class="muted">Creates the project with Kitchen, Bedroom 1, Bedroom 2, Bathroom 1, Bathroom 2, Hall and Balcony.</p><div class="field"><label for="newProjectName">Project name</label><input id="newProjectName" value="My Home Interior"/></div><button class="btn btn-primary" id="createProjectBtn">Create Project</button></section>
+<section class="panel setup-card"><p class="eyebrow">JOIN AN EXISTING PROJECT</p><h2>Have an invite code?</h2><p class="muted">Enter the 8-character code shared by the project owner.</p><div class="field"><label for="joinCode">Invite code</label><input id="joinCode" maxlength="8" placeholder="AB12CD34"/></div><button class="btn btn-secondary" id="joinProjectBtn">Request Access</button><p class="tiny muted" id="joinStatus"></p></section>
+</div>
+</div>
+<div class="page hidden" id="waitingView"><section class="panel empty-state"><div class="empty-icon">◷</div><h2>Access request pending</h2><p class="muted">The project owner needs to approve your request.</p><button class="btn btn-primary" id="refreshAccessBtn">Check Again</button></section></div>
+<div class="hidden" id="mainPages">
+<section class="page active" id="dashboardPage">
+<div class="page-head"><div><p class="eyebrow">PROJECT OVERVIEW</p><h1 id="dashboardTitle">Home Interior</h1><p class="muted" id="todayText"></p></div><div class="head-actions"><button class="btn btn-secondary" id="printDashboardBtn">Print</button><button class="btn btn-primary" data-action="add-activity">+ Add Activity</button></div></div>
+<div class="stats-grid">
+<article class="stat-card"><span class="stat-label">Overall progress</span><strong id="overallProgress">0%</strong><div class="progress"><i id="overallBar"></i></div></article>
+<article class="stat-card clickable" data-dashboard-filter="all"><span class="stat-label">Total activities</span><strong id="totalActivities">0</strong><small id="completedSummary">0 completed</small></article>
+<article class="stat-card clickable" data-dashboard-filter="overdue"><span class="stat-label">Overdue</span><strong id="overdueCount">0</strong><small>Click to view overdue</small></article>
+<article class="stat-card attention clickable" data-dashboard-filter="pending"><span class="stat-label">Pending with me</span><strong id="pendingCount">0</strong><small>Click to view your actions</small></article>
+</div>
+<div class="dashboard-grid">
+<section class="panel"><div class="panel-head"><div><h3>Progress by area</h3><p class="muted tiny">Click an area to open its activities</p></div></div><div class="area-progress" id="areaProgress"></div></section>
+<section class="panel"><div class="panel-head"><div><h3>Upcoming deadlines</h3><p class="muted tiny">Next activities by expected completion</p></div></div><div class="list" id="upcomingList"></div></section>
+</div>
+<section class="panel"><div class="panel-head"><div><h3>Recent updates</h3><p class="muted tiny">Latest activity changes</p></div><button class="text-btn" data-page-link="activities">View all</button></div><div id="recentTable"></div></section>
+</section>
+<section class="page" id="activitiesPage">
+<div class="page-head"><div><p class="eyebrow">WORK TRACKER</p><h1>Activities</h1><p class="muted">Track each activity, deadline, comments and anything waiting on you.</p></div><div class="head-actions"><button class="btn btn-secondary" id="exportExcelBtn">Export Excel</button><button class="btn btn-secondary" id="printActivitiesBtn">Print</button><button class="btn btn-primary" data-action="add-activity">+ Add Activity</button></div></div>
+<section class="panel filters">
+<div class="field compact"><label for="areaFilter">Area</label><select id="areaFilter"><option value="all">All areas</option></select></div>
+<div class="field compact"><label for="statusFilter">Status</label><select id="statusFilter"><option value="all">All statuses</option><option>Not Started</option><option>In Progress</option><option>Waiting</option><option>On Hold</option><option>Completed</option></select></div>
+<div class="field compact"><label for="quickFilter">Quick view</label><select id="quickFilter"><option value="all">All activities</option><option value="pending">Pending with me</option><option value="overdue">Overdue</option><option value="upcoming">Upcoming</option><option value="completed">Completed</option></select></div>
+<div class="field compact grow"><label for="searchFilter">Search</label><input id="searchFilter" placeholder="Search activity or remarks"/></div>
+</section>
+<div class="filter-note hidden" id="activeFilterNote"></div>
+<section class="panel table-panel"><div id="activitiesTable"></div></section>
+</section>
+<section class="page" id="pendingPage">
+<div class="page-head"><div><p class="eyebrow">YOUR ACTIONS</p><h1>Pending With Me</h1><p class="muted">Everything currently waiting for your decision, purchase or approval.</p></div><div class="head-actions"><button class="btn btn-secondary" id="exportPendingBtn">Export Excel</button><button class="btn btn-secondary" id="printPendingBtn">Print</button></div></div>
+<div class="pending-grid" id="pendingCards"></div>
+</section>
+<section class="page" id="purchasePage">
+<div class="page-head"><div><p class="eyebrow">BUYING DECISIONS</p><h1>Purchase Compare</h1><p class="muted">Compare brands, prices, sellers, service, quality and durability before you buy.</p></div><div class="head-actions"><button class="btn btn-secondary" id="exportPurchasesBtn">Export Excel</button><button class="btn btn-secondary" id="printPurchasesBtn">Print</button><button class="btn btn-primary" data-action="add-purchase">+ Add Item</button></div></div>
+<div class="stats-grid purchase-stats"><article class="stat-card"><span class="stat-label">Total items</span><strong id="purchaseTotal">0</strong><small>Buying decisions tracked</small></article><article class="stat-card"><span class="stat-label">Completed</span><strong id="purchaseCompleted">0</strong><small>Purchased items</small></article><article class="stat-card"><span class="stat-label">Remaining</span><strong id="purchaseRemaining">0</strong><small>Still to complete</small></article><article class="stat-card"><span class="stat-label">Overdue</span><strong id="purchaseOverdue">0</strong><small>Past due date</small></article><article class="stat-card"><span class="stat-label">Next due</span><strong id="purchaseNextDue">—</strong><small id="purchaseNextDueItem">No due date yet</small></article><article class="stat-card"><span class="stat-label">Chosen spend</span><strong id="purchaseSpend">₹0</strong><small>Based on marked choices</small></article></div>
+<section class="panel filters purchase-filters"><div class="field compact"><label for="purchaseStatusFilter">Status</label><select id="purchaseStatusFilter"><option value="all">All statuses</option><option>Researching</option><option>Shortlisted</option><option>Selected</option><option>Purchased</option></select></div><div class="field compact"><label for="purchaseTimingFilter">Timing</label><select id="purchaseTimingFilter"><option value="all">All dates</option><option value="overdue">Overdue</option><option value="next7">Due in next 7 days</option><option value="nodate">No due date</option></select></div><div class="field compact grow"><label for="purchaseSearch">Search</label><input id="purchaseSearch" placeholder="Search item, brand, model or shop"/></div></section>
+<div class="purchase-list" id="purchaseCompareList"></div>
+</section>
+<section class="page" id="notesPage">
+<div class="page-head"><div><h1>Notes</h1><p class="muted">Quick project notes and follow-ups.</p></div></div>
+<section class="panel note-compose-simple">
+<form id="noteForm">
+<input id="noteId" type="hidden"/>
+<div class="field"><label class="sr-only" for="noteText">Note</label><textarea id="noteText" placeholder="Write a note..." required="" rows="6"></textarea></div>
+<div class="simple-note-form-actions"><div class="note-status-field"><label for="noteStatus">Status</label><select aria-label="Note status" id="noteStatus"><option>Open</option><option>In Progress</option><option>Done</option></select></div><button class="btn btn-ghost hidden" id="cancelNoteEditBtn" type="button">Cancel</button><button class="btn btn-primary" type="submit"><span id="noteSubmitText">Add Note</span></button></div>
+</form>
+</section>
+<div class="simple-notes-list" id="notesList"></div>
+</section>
+<section class="page" id="teamPage">
+<div class="page-head"><div><p class="eyebrow">COLLABORATION</p><h1>Team &amp; Access</h1><p class="muted">The project owner is the administrator. Approve users and control Editor/Viewer roles here.</p></div></div>
+<div class="dashboard-grid">
+<section class="panel"><h3>Project invite code</h3><p class="muted">Share this with your interior designer, contractor or family member.</p><div class="invite-box"><code id="inviteCode">--------</code><button class="btn btn-secondary" id="copyInviteBtn">Copy</button></div></section>
+<section class="panel"><h3>Access levels</h3><p class="muted tiny"><strong>Owner:</strong> full project control and settings.<br/><strong>Admin:</strong> manage users/roles and update project work.<br/><strong>Editor:</strong> add and update activities.<br/><strong>Viewer:</strong> read-only access.</p></section>
+</div>
+<section class="panel hidden admin-create-panel" id="teamAdminPanel">
+<div class="panel-head"><div><h3>Create another admin</h3><p class="muted tiny">Create an admin directly with a temporary password. They must change it on first login.</p></div></div>
+<form class="admin-create-form" id="createAdminForm">
+<div class="field"><label for="adminDisplayName">Name</label><input id="adminDisplayName" placeholder="Admin name"/></div>
+<div class="field"><label for="adminEmail">Email</label><input id="adminEmail" placeholder="admin@example.com" required="" type="email"/></div>
+<div class="field"><label for="adminTempPassword">Temporary password</label><input id="adminTempPassword" minlength="10" placeholder="Minimum 10 characters" required="" type="password"/></div>
+<button class="btn btn-primary" type="submit">Create Admin</button>
+</form>
+<p class="tiny muted">Share the temporary password separately and securely. The new admin will be blocked by a password-change screen until they choose their own password.</p>
+</section>
+<section class="panel"><div class="panel-head"><div><h3>People</h3><p class="muted tiny">Admins can approve requests, assign roles and reset another admin to a temporary password.</p></div></div><div class="list" id="teamList"></div></section>
+</section>
+<section class="page" id="settingsPage">
+<div class="page-head"><div><p class="eyebrow">ADMIN</p><h1>Project Settings</h1><p class="muted">Edit project information and manage the areas/rooms used in the tracker.</p></div></div>
+<div class="dashboard-grid settings-grid">
+<section class="panel">
+<h3>Project details</h3>
+<form class="stack settings-form" id="projectSettingsForm">
+<div class="field"><label for="settingsProjectName">Project name</label><input id="settingsProjectName" required=""/></div>
+<div class="field"><label for="settingsLocation">Location</label><input id="settingsLocation" placeholder="e.g. Kottayam, Kerala"/></div>
+<div class="two-col"><div class="field"><label for="settingsStartDate">Start date</label><input id="settingsStartDate" type="date"/></div><div class="field"><label for="settingsTargetDate">Target completion</label><input id="settingsTargetDate" type="date"/></div></div>
+<div class="field"><label for="settingsDescription">Project notes</label><textarea id="settingsDescription" placeholder="General project notes" rows="5"></textarea></div>
+<button class="btn btn-primary" type="submit">Save Project Details</button>
+</form>
+</section>
+<section class="panel">
+<h3>Areas / Rooms</h3><p class="muted tiny">Rename existing areas, add new ones, or remove an unused area.</p>
+<div class="area-manager" id="areaManager"></div>
+<form class="inline-form" id="addAreaForm"><input id="newAreaName" placeholder="New area name" required=""/><button class="btn btn-secondary" type="submit">+ Add Area</button></form>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div aria-hidden="true" class="modal hidden" id="passwordChangeModal">
+<div class="modal-backdrop"></div>
+<section class="modal-card password-card">
+<div class="modal-head"><div><p class="eyebrow">SECURITY</p><h2 id="passwordChangeTitle">Change password</h2></div></div>
+<p class="muted" id="passwordChangeText">Choose a new password.</p>
+<form class="stack" id="passwordChangeForm">
+<div class="field"><label for="newPassword">New password</label><input autocomplete="new-password" id="newPassword" minlength="10" required="" type="password"/></div>
+<div class="field"><label for="confirmNewPassword">Confirm new password</label><input autocomplete="new-password" id="confirmNewPassword" minlength="10" required="" type="password"/></div>
+<button class="btn btn-primary btn-block" type="submit">Change Password</button>
+</form>
+<p class="tiny muted centered">This screen cannot be skipped when an admin is using a temporary password.</p>
+</section>
+</div>
+<div aria-hidden="true" class="modal hidden" id="purchaseModal">
+<div class="modal-backdrop" data-close-purchase=""></div>
+<section class="modal-card purchase-modal-card">
+<div class="modal-head"><div><p class="eyebrow">PURCHASE DECISION</p><h2 id="purchaseModalTitle">Add item to compare</h2></div><button class="icon-btn" data-close-purchase="" type="button">×</button></div>
+<form class="stack" id="purchaseForm">
+<input id="purchaseId" type="hidden"/>
+<section class="purchase-basics"><div class="field"><label for="purchaseItemName">Item *</label><input id="purchaseItemName" placeholder="e.g. Kitchen chimney" required=""/></div><div class="field"><label for="purchaseCategory">Category / room</label><input id="purchaseCategory" placeholder="e.g. Kitchen"/></div><div class="field"><label for="purchaseBudget">Target budget (₹)</label><input id="purchaseBudget" min="0" placeholder="Optional" step="0.01" type="number"/></div><div class="field"><label for="purchaseDecisionStatus">Decision status</label><select id="purchaseDecisionStatus"><option>Researching</option><option>Shortlisted</option><option>Selected</option><option>Purchased</option></select></div><div class="field"><label for="purchaseDueDate">Due / target date</label><input id="purchaseDueDate" type="date"/></div><div class="field"><label for="purchaseCompletedDate">Actual purchase date</label><input id="purchaseCompletedDate" type="date"/></div><div class="field full"><label for="purchaseGeneralRemarks">General remarks</label><textarea id="purchaseGeneralRemarks" placeholder="What matters most for this purchase?" rows="2"></textarea></div></section>
+<div class="option-editors" id="purchaseOptionEditors"></div>
+<div class="option-add-row"><button class="btn btn-secondary" id="addPurchaseOptionBtn" type="button">+ Add another option</button><span class="tiny muted">Starts with 3 options. Add more whenever you need them.</span></div>
+<div class="purchase-modal-actions"><button class="btn btn-danger hidden" id="deletePurchaseBtn" type="button">Delete Item</button><span></span><button class="btn btn-ghost" data-close-purchase="" type="button">Cancel</button><button class="btn btn-primary" type="submit">Save Comparison</button></div>
+</form>
+</section>
+</div>
+<div aria-hidden="true" class="modal hidden" id="activityModal">
+<div class="modal-backdrop" data-close-modal=""></div>
+<section class="modal-card">
+<div class="modal-head"><div><p class="eyebrow">ACTIVITY</p><h2 id="modalTitle">Add activity</h2></div><button class="icon-btn" data-close-modal="" type="button">×</button></div>
+<form class="form-grid" id="activityForm">
+<input id="activityId" type="hidden"/>
+<div class="field full"><label for="activityArea">Area *</label><select id="activityArea" required=""></select></div>
+<div class="field full"><label for="activityName">Activity *</label><input id="activityName" placeholder="e.g. Kitchen cabinets installation" required=""/></div>
+<div class="field"><label for="activityStatus">Status</label><select id="activityStatus"><option>Not Started</option><option>In Progress</option><option>Waiting</option><option>On Hold</option><option>Completed</option></select></div>
+<div class="field"><label for="expectedDate">Expected completion</label><input id="expectedDate" type="date"/></div>
+<div class="field"><label for="actualDate">Actual completion</label><input id="actualDate" type="date"/></div>
+<div class="field checkbox-field"><label><input id="pendingWithMe" type="checkbox"/> Pending with me</label></div>
+<div class="field full"><label for="remarks">Remarks</label><textarea id="remarks" placeholder="Any comments or site updates" rows="3"></textarea></div>
+<div class="field full"><label for="pendingDetails">What is pending?</label><textarea id="pendingDetails" placeholder="e.g. Select handle model / make payment / approve drawing" rows="2"></textarea></div>
+<div class="modal-actions"><button class="btn btn-danger hidden" id="deleteActivityBtn" type="button">Delete</button><span></span><button class="btn btn-ghost" data-close-modal="" type="button">Cancel</button><button class="btn btn-primary" type="submit">Save Activity</button></div>
+</form>
+</section>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="app.js" type="module"></script>
 </body>
 </html>

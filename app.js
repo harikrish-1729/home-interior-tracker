@@ -111,7 +111,7 @@ function renderPurchaseCompare(){
   const chosenSpend=state.purchases.reduce((sum,i)=>{ const o=purchaseOptionsFor(i.id).find(x=>x.is_selected); return sum+(o?.price?Number(o.price):0) },0)
   if($('#purchaseTotal')) $('#purchaseTotal').textContent=total; if($('#purchaseCompleted'))$('#purchaseCompleted').textContent=completed; if($('#purchaseRemaining'))$('#purchaseRemaining').textContent=remaining; if($('#purchaseOverdue'))$('#purchaseOverdue').textContent=overdue; if($('#purchaseNextDue'))$('#purchaseNextDue').textContent=upcoming?fmtDate(upcoming.due_date):'—'; if($('#purchaseNextDueItem'))$('#purchaseNextDueItem').textContent=upcoming?upcoming.item_name:'No due date yet'; if($('#purchaseSpend'))$('#purchaseSpend').textContent=money(chosenSpend)
   const items=filteredPurchases(),host=$('#purchaseCompareList'); if(!host)return
-  if(!items.length){ host.innerHTML='<section class="panel empty-state purchase-empty"><div class="empty-icon">⌕</div><h2>No purchase comparisons yet</h2><p class="muted">Add something you are planning to buy, then compare up to three brands or sellers side by side.</p><button class="btn btn-primary" data-action="add-purchase">+ Add Item to Compare</button></section>'; return }
+  if(!items.length){ host.innerHTML='<section class="panel empty-state purchase-empty"><div class="empty-icon">⌕</div><h2>No purchase comparisons yet</h2><p class="muted">Add something you are planning to buy, then compare brands or sellers side by side.</p><button class="btn btn-primary" data-action="add-purchase">+ Add Item to Compare</button></section>'; return }
   host.innerHTML=items.map(i=>{
     const opts=purchaseOptionsFor(i.id), priced=opts.filter(o=>o.price!==null), min=priced.length?Math.min(...priced.map(o=>Number(o.price))):null, rated=opts.filter(o=>ratingAvg(o)>0), best= rated.length?Math.max(...rated.map(ratingAvg)):0
     const displayCount=Math.max(3,...opts.map(o=>o.option_no||0)); const cards=Array.from({length:displayCount},(_,idx)=>idx+1).map(no=>{ const o=opts.find(x=>x.option_no===no); if(!o)return `<div class="compare-option empty-option"><span class="option-kicker">OPTION ${no}</span><strong>Not added</strong><small>Add another brand/shop if you want a wider comparison.</small></div>`
@@ -222,23 +222,7 @@ async function forgotPassword(){
   const email=$('#email').value.trim(); if(!email)return toast('Enter your email address first');
   const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:SITE_URL}); if(error)return toast(error.message); toast('Password reset email sent. Check your inbox.')
 }
-$$('[data-auth-tab]').forEach(b=>b.addEventListener('click',()=>{ state.authMode=b.dataset.authTab; function openPasswordChange(force=false){
-  $('#passwordChangeTitle').textContent=force?'Change your temporary password':'Choose a new password';
-  $('#passwordChangeText').textContent=force?'For security, you must change the temporary/admin-reset password before continuing.':'Enter and confirm your new password.';
-  show($('#passwordChangeModal'),true); $('#passwordChangeModal').classList.remove('hidden');
-}
-async function submitPasswordChange(e){
-  e.preventDefault(); const p=$('#newPassword').value,c=$('#confirmNewPassword').value;
-  if(p.length<10)return toast('Use at least 10 characters'); if(p!==c)return toast('Passwords do not match');
-  const {error}=await supabase.auth.updateUser({password:p}); if(error)return toast(error.message);
-  try{ if(state.project && isAdmin()) await adminInvoke('complete_password_change') }catch(_){}
-  const {data:{user}}=await supabase.auth.getUser(); if(user)state.user=user; $('#passwordChangeForm').reset(); show($('#passwordChangeModal'),false); $('#passwordChangeModal').classList.add('hidden'); state.passwordRecovery=false; toast('Password changed successfully')
-}
-async function forgotPassword(){
-  const email=$('#email').value.trim(); if(!email)return toast('Enter your email address first');
-  const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:SITE_URL}); if(error)return toast(error.message); toast('Password reset email sent. Check your inbox.')
-}
-$$('[data-auth-tab]').forEach(x=>x.classList.toggle('active',x===b)); show($('#nameField'),state.authMode==='signup'); $('#authSubmit').textContent=state.authMode==='signup'?'Create account':'Sign in'; $('#password').autocomplete=state.authMode==='signup'?'new-password':'current-password' }))
+$$('[data-auth-tab]').forEach(b=>b.addEventListener('click',()=>{ state.authMode=b.dataset.authTab; $$('[data-auth-tab]').forEach(x=>x.classList.toggle('active',x===b)); show($('#nameField'),state.authMode==='signup'); $('#authSubmit').textContent=state.authMode==='signup'?'Create account':'Sign in'; $('#password').autocomplete=state.authMode==='signup'?'new-password':'current-password' }))
 $('#authForm').addEventListener('submit',async e=>{ e.preventDefault(); const email=$('#email').value.trim(),password=$('#password').value; if(state.authMode==='signup'){ const {data,error}=await supabase.auth.signUp({email,password,options:{emailRedirectTo:SITE_URL,data:{display_name:$('#displayName').value.trim()||email.split('@')[0]}}}); if(error)return toast(error.message); if(!data.session)toast('Account created. Check your email to confirm, then sign in.'); else await enterApp(data.user) } else { const {data,error}=await supabase.auth.signInWithPassword({email,password}); if(error)return toast(error.message); await enterApp(data.user) } })
 $('#logoutBtn').addEventListener('click',()=>supabase.auth.signOut()); $('#forgotPasswordBtn').addEventListener('click',forgotPassword); $('#passwordChangeForm').addEventListener('submit',submitPasswordChange); $('#createAdminForm').addEventListener('submit',createAdmin); $('#createProjectBtn').addEventListener('click',createProject); $('#joinProjectBtn').addEventListener('click',joinProject); $('#refreshAccessBtn').addEventListener('click',loadProjectContext)
 $$('.nav-item').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.page))); $$('[data-page-link]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.pageLink))); $$('[data-action="add-activity"]').forEach(b=>b.addEventListener('click',()=>openActivity())); $$('[data-close-modal]').forEach(b=>b.addEventListener('click',closeActivity))

@@ -34,5 +34,8 @@ Upload `index.html`, `app.js`, and `styles.css` to the repository root.
 - Notes page simplified to a multiline note box, status, and a compact note list.
 
 
-## v8
+## v9
 - Smart visual comparison colors: best rated, lowest price, over budget, near budget, and your choice.
+
+
+V9 QA fixes: Notes alignment cleanup, duplicate auth helper cleanup, form-label associations, and static consistency checks.
