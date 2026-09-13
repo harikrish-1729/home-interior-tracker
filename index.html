@@ -19,28 +19,17 @@
       <p class="eyebrow">HOME INTERIOR</p>
       <h1>Track every room. Know what’s next.</h1>
       <p class="muted">A shared tracker for your interior work, pending decisions and completion dates.</p>
-
       <div class="segmented auth-tabs">
         <button class="seg active" data-auth-tab="signin">Sign in</button>
         <button class="seg" data-auth-tab="signup">Create account</button>
       </div>
-
       <form id="authForm" class="stack">
-        <div id="nameField" class="field hidden">
-          <label for="displayName">Name</label>
-          <input id="displayName" type="text" placeholder="Your name" autocomplete="name" />
-        </div>
-        <div class="field">
-          <label for="email">Email</label>
-          <input id="email" type="email" required placeholder="you@example.com" autocomplete="email" />
-        </div>
-        <div class="field">
-          <label for="password">Password</label>
-          <input id="password" type="password" required minlength="6" placeholder="Minimum 6 characters" autocomplete="current-password" />
-        </div>
+        <div id="nameField" class="field hidden"><label for="displayName">Name</label><input id="displayName" type="text" placeholder="Your name" autocomplete="name" /></div>
+        <div class="field"><label for="email">Email</label><input id="email" type="email" required placeholder="you@example.com" autocomplete="email" /></div>
+        <div class="field"><label for="password">Password</label><input id="password" type="password" required minlength="6" placeholder="Minimum 6 characters" autocomplete="current-password" /></div>
         <button id="authSubmit" class="btn btn-primary btn-block" type="submit">Sign in</button>
       </form>
-      <p id="authHint" class="tiny muted centered">Your login is separate from your Supabase dashboard login.</p>
+      <p class="tiny muted centered">Your login is separate from your Supabase dashboard login.</p>
     </section>
   </main>
 
@@ -53,81 +42,85 @@
           <button class="nav-item" data-page="activities"><span>☷</span>Activities</button>
           <button class="nav-item" data-page="pending"><span>◷</span>Pending With Me <b id="pendingBadge" class="badge">0</b></button>
           <button class="nav-item" data-page="team"><span>◎</span>Team & Access</button>
+          <button id="settingsNav" class="nav-item hidden" data-page="settings"><span>⚙</span>Project Settings</button>
         </nav>
       </div>
-      <div class="sidebar-bottom">
-        <div id="userLabel" class="user-pill"></div>
-        <button id="logoutBtn" class="btn btn-ghost btn-block">Sign out</button>
-      </div>
+      <div class="sidebar-bottom"><div id="userLabel" class="user-pill"></div><button id="logoutBtn" class="btn btn-ghost btn-block">Sign out</button></div>
     </aside>
 
     <section class="content">
-      <header class="mobile-header">
-        <div class="app-brand"><span class="brand-mark small">HI</span><strong>Interior Tracker</strong></div>
-        <button id="mobileMenuBtn" class="icon-btn">☰</button>
-      </header>
+      <header class="mobile-header"><div class="app-brand"><span class="brand-mark small">HI</span><strong>Interior Tracker</strong></div><button id="mobileMenuBtn" class="icon-btn">☰</button></header>
 
       <div id="setupView" class="page hidden">
         <div class="setup-grid">
-          <section class="panel setup-card">
-            <p class="eyebrow">START YOUR PROJECT</p>
-            <h2>Create your home tracker</h2>
-            <p class="muted">This creates the project and the default areas: Kitchen, Bedroom 1, Bedroom 2, Bathroom 1, Bathroom 2, Hall and Balcony.</p>
-            <div class="field"><label>Project name</label><input id="newProjectName" value="My Home Interior" /></div>
-            <button id="createProjectBtn" class="btn btn-primary">Create Project</button>
-          </section>
-          <section class="panel setup-card">
-            <p class="eyebrow">JOIN AN EXISTING PROJECT</p>
-            <h2>Have an invite code?</h2>
-            <p class="muted">Enter the 8-character code shared by the project owner. The owner will approve your request.</p>
-            <div class="field"><label>Invite code</label><input id="joinCode" maxlength="8" placeholder="AB12CD34" /></div>
-            <button id="joinProjectBtn" class="btn btn-secondary">Request Access</button>
-            <p id="joinStatus" class="tiny muted"></p>
-          </section>
+          <section class="panel setup-card"><p class="eyebrow">START YOUR PROJECT</p><h2>Create your home tracker</h2><p class="muted">Creates the project with Kitchen, Bedroom 1, Bedroom 2, Bathroom 1, Bathroom 2, Hall and Balcony.</p><div class="field"><label>Project name</label><input id="newProjectName" value="My Home Interior" /></div><button id="createProjectBtn" class="btn btn-primary">Create Project</button></section>
+          <section class="panel setup-card"><p class="eyebrow">JOIN AN EXISTING PROJECT</p><h2>Have an invite code?</h2><p class="muted">Enter the 8-character code shared by the project owner.</p><div class="field"><label>Invite code</label><input id="joinCode" maxlength="8" placeholder="AB12CD34" /></div><button id="joinProjectBtn" class="btn btn-secondary">Request Access</button><p id="joinStatus" class="tiny muted"></p></section>
         </div>
       </div>
 
-      <div id="waitingView" class="page hidden">
-        <section class="panel empty-state"><div class="empty-icon">◷</div><h2>Access request pending</h2><p class="muted">The project owner needs to approve your request. Once approved, refresh this page.</p><button id="refreshAccessBtn" class="btn btn-primary">Check Again</button></section>
-      </div>
+      <div id="waitingView" class="page hidden"><section class="panel empty-state"><div class="empty-icon">◷</div><h2>Access request pending</h2><p class="muted">The project owner needs to approve your request.</p><button id="refreshAccessBtn" class="btn btn-primary">Check Again</button></section></div>
 
       <div id="mainPages" class="hidden">
         <section id="dashboardPage" class="page active">
-          <div class="page-head"><div><p class="eyebrow">PROJECT OVERVIEW</p><h1 id="dashboardTitle">Home Interior</h1><p id="todayText" class="muted"></p></div><button class="btn btn-primary" data-action="add-activity">+ Add Activity</button></div>
-
+          <div class="page-head"><div><p class="eyebrow">PROJECT OVERVIEW</p><h1 id="dashboardTitle">Home Interior</h1><p id="todayText" class="muted"></p></div><div class="head-actions"><button id="printDashboardBtn" class="btn btn-secondary">Print</button><button class="btn btn-primary" data-action="add-activity">+ Add Activity</button></div></div>
           <div class="stats-grid">
             <article class="stat-card"><span class="stat-label">Overall progress</span><strong id="overallProgress">0%</strong><div class="progress"><i id="overallBar"></i></div></article>
-            <article class="stat-card"><span class="stat-label">Total activities</span><strong id="totalActivities">0</strong><small id="completedSummary">0 completed</small></article>
-            <article class="stat-card"><span class="stat-label">Overdue</span><strong id="overdueCount">0</strong><small>Past expected date</small></article>
-            <article class="stat-card attention"><span class="stat-label">Pending with me</span><strong id="pendingCount">0</strong><small>Needs your decision/action</small></article>
+            <article class="stat-card clickable" data-dashboard-filter="all"><span class="stat-label">Total activities</span><strong id="totalActivities">0</strong><small id="completedSummary">0 completed</small></article>
+            <article class="stat-card clickable" data-dashboard-filter="overdue"><span class="stat-label">Overdue</span><strong id="overdueCount">0</strong><small>Click to view overdue</small></article>
+            <article class="stat-card attention clickable" data-dashboard-filter="pending"><span class="stat-label">Pending with me</span><strong id="pendingCount">0</strong><small>Click to view your actions</small></article>
           </div>
-
           <div class="dashboard-grid">
-            <section class="panel"><div class="panel-head"><div><h3>Progress by area</h3><p class="muted tiny">Completion based on activities marked completed</p></div></div><div id="areaProgress" class="area-progress"></div></section>
+            <section class="panel"><div class="panel-head"><div><h3>Progress by area</h3><p class="muted tiny">Click an area to open its activities</p></div></div><div id="areaProgress" class="area-progress"></div></section>
             <section class="panel"><div class="panel-head"><div><h3>Upcoming deadlines</h3><p class="muted tiny">Next activities by expected completion</p></div></div><div id="upcomingList" class="list"></div></section>
           </div>
-
           <section class="panel"><div class="panel-head"><div><h3>Recent updates</h3><p class="muted tiny">Latest activity changes</p></div><button class="text-btn" data-page-link="activities">View all</button></div><div id="recentTable"></div></section>
         </section>
 
         <section id="activitiesPage" class="page">
-          <div class="page-head"><div><p class="eyebrow">WORK TRACKER</p><h1>Activities</h1><p class="muted">Track each activity, deadline, comments and anything waiting on you.</p></div><button class="btn btn-primary" data-action="add-activity">+ Add Activity</button></div>
-          <section class="panel filters"><div class="field compact"><label>Area</label><select id="areaFilter"><option value="all">All areas</option></select></div><div class="field compact"><label>Status</label><select id="statusFilter"><option value="all">All statuses</option><option>Not Started</option><option>In Progress</option><option>Waiting</option><option>On Hold</option><option>Completed</option></select></div><div class="field compact grow"><label>Search</label><input id="searchFilter" placeholder="Search activity or remarks" /></div></section>
+          <div class="page-head"><div><p class="eyebrow">WORK TRACKER</p><h1>Activities</h1><p class="muted">Track each activity, deadline, comments and anything waiting on you.</p></div><div class="head-actions"><button id="exportExcelBtn" class="btn btn-secondary">Export Excel</button><button id="printActivitiesBtn" class="btn btn-secondary">Print</button><button class="btn btn-primary" data-action="add-activity">+ Add Activity</button></div></div>
+          <section class="panel filters">
+            <div class="field compact"><label>Area</label><select id="areaFilter"><option value="all">All areas</option></select></div>
+            <div class="field compact"><label>Status</label><select id="statusFilter"><option value="all">All statuses</option><option>Not Started</option><option>In Progress</option><option>Waiting</option><option>On Hold</option><option>Completed</option></select></div>
+            <div class="field compact"><label>Quick view</label><select id="quickFilter"><option value="all">All activities</option><option value="pending">Pending with me</option><option value="overdue">Overdue</option><option value="upcoming">Upcoming</option><option value="completed">Completed</option></select></div>
+            <div class="field compact grow"><label>Search</label><input id="searchFilter" placeholder="Search activity or remarks" /></div>
+          </section>
+          <div id="activeFilterNote" class="filter-note hidden"></div>
           <section class="panel table-panel"><div id="activitiesTable"></div></section>
         </section>
 
         <section id="pendingPage" class="page">
-          <div class="page-head"><div><p class="eyebrow">YOUR ACTIONS</p><h1>Pending With Me</h1><p class="muted">Everything currently waiting for your decision, purchase or approval.</p></div></div>
+          <div class="page-head"><div><p class="eyebrow">YOUR ACTIONS</p><h1>Pending With Me</h1><p class="muted">Everything currently waiting for your decision, purchase or approval.</p></div><div class="head-actions"><button id="exportPendingBtn" class="btn btn-secondary">Export Excel</button><button id="printPendingBtn" class="btn btn-secondary">Print</button></div></div>
           <div id="pendingCards" class="pending-grid"></div>
         </section>
 
         <section id="teamPage" class="page">
-          <div class="page-head"><div><p class="eyebrow">COLLABORATION</p><h1>Team & Access</h1><p class="muted">Share the invite code and approve people who need to update the tracker.</p></div></div>
+          <div class="page-head"><div><p class="eyebrow">COLLABORATION</p><h1>Team & Access</h1><p class="muted">The project owner is the administrator. Approve users and control Editor/Viewer roles here.</p></div></div>
           <div class="dashboard-grid">
             <section class="panel"><h3>Project invite code</h3><p class="muted">Share this with your interior designer, contractor or family member.</p><div class="invite-box"><code id="inviteCode">--------</code><button id="copyInviteBtn" class="btn btn-secondary">Copy</button></div></section>
-            <section class="panel"><h3>Access levels</h3><p class="muted tiny"><strong>Editor</strong> can add and update activities. <strong>Viewer</strong> can only view. Only you, as owner, can approve access.</p></section>
+            <section class="panel"><h3>Access levels</h3><p class="muted tiny"><strong>Owner / Admin:</strong> full control, user approvals and settings.<br><strong>Editor:</strong> add and update activities.<br><strong>Viewer:</strong> read-only access.</p></section>
           </div>
-          <section class="panel"><div class="panel-head"><div><h3>People</h3><p class="muted tiny">Pending requests and approved collaborators</p></div></div><div id="teamList" class="list"></div></section>
+          <section class="panel"><div class="panel-head"><div><h3>People</h3><p class="muted tiny">Owner, pending requests and approved collaborators</p></div></div><div id="teamList" class="list"></div></section>
+        </section>
+
+        <section id="settingsPage" class="page">
+          <div class="page-head"><div><p class="eyebrow">ADMIN</p><h1>Project Settings</h1><p class="muted">Edit project information and manage the areas/rooms used in the tracker.</p></div></div>
+          <div class="dashboard-grid settings-grid">
+            <section class="panel">
+              <h3>Project details</h3>
+              <form id="projectSettingsForm" class="stack settings-form">
+                <div class="field"><label for="settingsProjectName">Project name</label><input id="settingsProjectName" required /></div>
+                <div class="field"><label for="settingsLocation">Location</label><input id="settingsLocation" placeholder="e.g. Kottayam, Kerala" /></div>
+                <div class="two-col"><div class="field"><label for="settingsStartDate">Start date</label><input id="settingsStartDate" type="date" /></div><div class="field"><label for="settingsTargetDate">Target completion</label><input id="settingsTargetDate" type="date" /></div></div>
+                <div class="field"><label for="settingsDescription">Project notes</label><textarea id="settingsDescription" rows="5" placeholder="General project notes"></textarea></div>
+                <button class="btn btn-primary" type="submit">Save Project Details</button>
+              </form>
+            </section>
+            <section class="panel">
+              <h3>Areas / Rooms</h3><p class="muted tiny">Rename existing areas, add new ones, or remove an unused area.</p>
+              <div id="areaManager" class="area-manager"></div>
+              <form id="addAreaForm" class="inline-form"><input id="newAreaName" placeholder="New area name" required /><button class="btn btn-secondary" type="submit">+ Add Area</button></form>
+            </section>
+          </div>
         </section>
       </div>
     </section>
@@ -152,6 +145,7 @@
     </section>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>
