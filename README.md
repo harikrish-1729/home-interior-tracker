@@ -13,3 +13,10 @@ Static GitHub Pages app backed by Supabase.
 - Explicit Supabase email confirmation redirect to GitHub Pages URL
 
 Upload `index.html`, `app.js`, and `styles.css` to the repository root.
+
+## Admin security (v3)
+- Project admins can create another admin from Team & Access using an email address and temporary password.
+- Newly created admins are email-confirmed by the secure Supabase Edge Function and are forced to change the temporary password on first login.
+- Admins can reset another admin's password to a temporary password; the target admin must change it immediately after login.
+- The login screen includes Forgot password, which uses Supabase's email recovery flow.
+- There is deliberately no permanent master/bypass password. Keeping at least two admins plus working recovery email access prevents lockout without creating a backdoor.

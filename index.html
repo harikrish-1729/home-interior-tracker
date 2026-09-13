@@ -28,6 +28,7 @@
         <div class="field"><label for="email">Email</label><input id="email" type="email" required placeholder="you@example.com" autocomplete="email" /></div>
         <div class="field"><label for="password">Password</label><input id="password" type="password" required minlength="6" placeholder="Minimum 6 characters" autocomplete="current-password" /></div>
         <button id="authSubmit" class="btn btn-primary btn-block" type="submit">Sign in</button>
+        <button id="forgotPasswordBtn" class="text-btn auth-link" type="button">Forgot password?</button>
       </form>
       <p class="tiny muted centered">Your login is separate from your Supabase dashboard login.</p>
     </section>
@@ -97,9 +98,19 @@
           <div class="page-head"><div><p class="eyebrow">COLLABORATION</p><h1>Team & Access</h1><p class="muted">The project owner is the administrator. Approve users and control Editor/Viewer roles here.</p></div></div>
           <div class="dashboard-grid">
             <section class="panel"><h3>Project invite code</h3><p class="muted">Share this with your interior designer, contractor or family member.</p><div class="invite-box"><code id="inviteCode">--------</code><button id="copyInviteBtn" class="btn btn-secondary">Copy</button></div></section>
-            <section class="panel"><h3>Access levels</h3><p class="muted tiny"><strong>Owner / Admin:</strong> full control, user approvals and settings.<br><strong>Editor:</strong> add and update activities.<br><strong>Viewer:</strong> read-only access.</p></section>
+            <section class="panel"><h3>Access levels</h3><p class="muted tiny"><strong>Owner:</strong> full project control and settings.<br><strong>Admin:</strong> manage users/roles and update project work.<br><strong>Editor:</strong> add and update activities.<br><strong>Viewer:</strong> read-only access.</p></section>
           </div>
-          <section class="panel"><div class="panel-head"><div><h3>People</h3><p class="muted tiny">Owner, pending requests and approved collaborators</p></div></div><div id="teamList" class="list"></div></section>
+          <section id="teamAdminPanel" class="panel hidden admin-create-panel">
+            <div class="panel-head"><div><h3>Create another admin</h3><p class="muted tiny">Create an admin directly with a temporary password. They must change it on first login.</p></div></div>
+            <form id="createAdminForm" class="admin-create-form">
+              <div class="field"><label for="adminDisplayName">Name</label><input id="adminDisplayName" placeholder="Admin name" /></div>
+              <div class="field"><label for="adminEmail">Email</label><input id="adminEmail" type="email" required placeholder="admin@example.com" /></div>
+              <div class="field"><label for="adminTempPassword">Temporary password</label><input id="adminTempPassword" type="password" required minlength="10" placeholder="Minimum 10 characters" /></div>
+              <button class="btn btn-primary" type="submit">Create Admin</button>
+            </form>
+            <p class="tiny muted">Share the temporary password separately and securely. The new admin will be blocked by a password-change screen until they choose their own password.</p>
+          </section>
+          <section class="panel"><div class="panel-head"><div><h3>People</h3><p class="muted tiny">Admins can approve requests, assign roles and reset another admin to a temporary password.</p></div></div><div id="teamList" class="list"></div></section>
         </section>
 
         <section id="settingsPage" class="page">
@@ -123,6 +134,20 @@
           </div>
         </section>
       </div>
+    </section>
+  </div>
+
+  <div id="passwordChangeModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <section class="modal-card password-card">
+      <div class="modal-head"><div><p class="eyebrow">SECURITY</p><h2 id="passwordChangeTitle">Change password</h2></div></div>
+      <p id="passwordChangeText" class="muted">Choose a new password.</p>
+      <form id="passwordChangeForm" class="stack">
+        <div class="field"><label for="newPassword">New password</label><input id="newPassword" type="password" required minlength="10" autocomplete="new-password" /></div>
+        <div class="field"><label for="confirmNewPassword">Confirm new password</label><input id="confirmNewPassword" type="password" required minlength="10" autocomplete="new-password" /></div>
+        <button class="btn btn-primary btn-block" type="submit">Change Password</button>
+      </form>
+      <p class="tiny muted centered">This screen cannot be skipped when an admin is using a temporary password.</p>
     </section>
   </div>
 
